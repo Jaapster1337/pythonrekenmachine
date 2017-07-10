@@ -63,21 +63,21 @@ class Layout:
     def update(self, method):
         if method == "add":
             #self.total += self.entered_number
-            self.show_calc_label.set(str(self.entered_number) + " + ")
+            str(self.show_calc_label.get()) + self.show_calc_label.set(str(self.entered_number) + " + ")
             self.last_operator = "+"
         elif method == "subtract":
             #self.total -= self.entered_number
-            self.show_calc_label.set(str(self.entered_number) + " - ")
+            str(self.show_calc_label.get()) + self.show_calc_label.set(str(self.entered_number) + " - ")
             self.last_operator = "-"
         elif method == "multiply":
             #self.total *= self.entered_number
-            self.show_calc_label.set(str(self.entered_number) + " * ")
+            str(self.show_calc_label.get()) + self.show_calc_label.set(str(self.entered_number) + " * ")
             self.last_operator = "*"
         elif method == "divide":
-            self.show_calc_label.set(str(self.entered_number) + " / ")
+            str(self.show_calc_label.get()) +self.show_calc_label.set(str(self.entered_number) + " / ")
             self.last_operator = "/"
         elif method == "power":
-            self.show_calc_label.set(str(self.entered_number) + " ** ")
+            str(self.show_calc_label.get()) + self.show_calc_label.set(str(self.entered_number) + " ** ")
             self.last_operator = "**"
             #self.total **= self.entered_number
         elif method == "root":
