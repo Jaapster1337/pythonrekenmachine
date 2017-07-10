@@ -10,6 +10,7 @@ class Layout:
         self.total = 0
         self.entered_number = 0
         self.solved = False
+        self.last_operator = ("")
 
         self.result_label = IntVar()
         self.result_label.set(self.total)
@@ -63,16 +64,21 @@ class Layout:
         if method == "add":
             #self.total += self.entered_number
             self.show_calc_label.set(str(self.entered_number) + " + ")
+            self.last_operator = "+"
         elif method == "subtract":
             #self.total -= self.entered_number
             self.show_calc_label.set(str(self.entered_number) + " - ")
+            self.last_operator = "-"
         elif method == "multiply":
             #self.total *= self.entered_number
             self.show_calc_label.set(str(self.entered_number) + " * ")
+            self.last_operator = "*"
         elif method == "divide":
             self.show_calc_label.set(str(self.entered_number) + " / ")
+            self.last_operator = "/"
         elif method == "power":
             self.show_calc_label.set(str(self.entered_number) + " ** ")
+            self.last_operator = "**"
             #self.total **= self.entered_number
         elif method == "root":
             self.total = float(round(math.sqrt(self.entered_number),5))
@@ -80,7 +86,7 @@ class Layout:
             #self.show_calc_label.set(str(self.entered_number) + "  ")
         elif method == "solve":
             if self.solved:
-                x = "+"+str(eval(self.show_calc_label.get()))
+                x = self.last_operator+str(eval(self.show_calc_label.get()))
             else:
                 x = str(self.entered_number)
             y = str(self.show_calc_label.get())
