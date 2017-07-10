@@ -62,35 +62,39 @@ class Layout:
         
     def update(self, method):
         if method == "add":
-            #self.total += self.entered_number
-            str(self.show_calc_label.get()) + self.show_calc_label.set(str(self.entered_number) + " + ")
-            self.last_operator = "+"
+            self.last_operator = " + "
+            self.formula()
+
         elif method == "subtract":
-            #self.total -= self.entered_number
-            str(self.show_calc_label.get()) + self.show_calc_label.set(str(self.entered_number) + " - ")
-            self.last_operator = "-"
+            self.last_operator = " - "
+            self.formula()
+
         elif method == "multiply":
-            #self.total *= self.entered_number
-            str(self.show_calc_label.get()) + self.show_calc_label.set(str(self.entered_number) + " * ")
-            self.last_operator = "*"
+            self.last_operator = " * "
+            self.formula()
+
         elif method == "divide":
-            str(self.show_calc_label.get()) +self.show_calc_label.set(str(self.entered_number) + " / ")
-            self.last_operator = "/"
+            self.last_operator = " / "
+            self.formula()
+
         elif method == "power":
-            str(self.show_calc_label.get()) + self.show_calc_label.set(str(self.entered_number) + " ** ")
-            self.last_operator = "**"
-            #self.total **= self.entered_number
+            self.last_operator = " ** "
+            self.formula()
+
         elif method == "root":
             self.total = float(round(math.sqrt(self.entered_number),5))
             print(self.total)
             #self.show_calc_label.set(str(self.entered_number) + "  ")
+
         elif method == "solve":
             if self.solved:
                 x = self.last_operator+str(eval(self.show_calc_label.get()))
             else:
                 x = str(self.entered_number)
+
             y = str(self.show_calc_label.get())
             self.show_calc_label.set(y+x)
+
             try:
                 eval(y+x)
             except ZeroDivisionError:
@@ -104,6 +108,14 @@ class Layout:
             self.total = 0
             self.show_calc_label.set("")
             self.solved = False
+
+    def formula(self):
+        if self.solved:
+            self.show_calc_label.set(str(self.entered_number) + self.last_used_operator)
+            self.solved = False
+        else:
+            self.show_calc_label.set(str(self.show_calc_label.get()) + str(self.entered_number) + self.last_operator)
+
 
         self.result_label.set(self.total)
         self.entry.delete(0, END)
