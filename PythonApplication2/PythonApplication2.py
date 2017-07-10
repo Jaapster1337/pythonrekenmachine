@@ -84,7 +84,7 @@ class Layout:
         elif method == "root":
             self.total = float(round(math.sqrt(self.entered_number),5))
             print(self.total)
-            #self.show_calc_label.set(str(self.entered_number) + "  ")
+            self.show_calc_label.set(self.total)
 
         elif method == "solve":
             if self.solved:
@@ -113,11 +113,12 @@ class Layout:
         if self.solved:
             self.show_calc_label.set(str(self.entered_number) + self.last_used_operator)
             self.solved = False
+            self.result_label.set(self.total)
         else:
             self.show_calc_label.set(str(self.show_calc_label.get()) + str(self.entered_number) + self.last_operator)
+            
 
-
-        self.result_label.set(self.total)
+       
         self.entry.delete(0, END)
 root = Tk()
 my_gui = Layout(root)
