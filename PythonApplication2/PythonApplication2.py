@@ -94,7 +94,6 @@ class Layout:
 
             y = str(self.show_calc_label.get())
             self.show_calc_label.set(y+x)
-            self.entry = ("")
 
             try:
                 eval(y+x)
