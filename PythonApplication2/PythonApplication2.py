@@ -123,7 +123,7 @@ class Layout:
             self.show_calc_label.set(str(self.entered_number) + self.last_operator)
             self.solved = False
             self.entry.delete(0, END)
-            
+
         else:
             self.show_calc_label.set(str(self.show_calc_label.get()) + str(self.entered_number) + self.last_operator)
             self.entry.delete(0, END)
