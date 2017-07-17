@@ -23,6 +23,7 @@ class Layout:
 
         vcmd = master.register(self.validate) # we have to wrap the command
         self.entry = Entry(master, validate="key", validatecommand=(vcmd, '%P'))
+        self.entry.focus_force()
 
         self.add_button = Button(master, text="+", command=lambda: self.update("add"))
         self.subtract_button = Button(master, text="-", command=lambda: self.update("subtract"))
@@ -39,6 +40,7 @@ class Layout:
         self.show_calc.grid(row=2, column=0, sticky=W)
         self.result.grid(row=0, column=1, columnspan=2, sticky=E)
         self.entry.grid(row=1, column=0, columnspan=3, sticky=W+E)
+       
 
         self.add_button.grid(row=3, column=0, sticky=W+E)
         self.subtract_button.grid(row=3, column=1, columnspan=2, sticky=W+E)
@@ -53,7 +55,6 @@ class Layout:
         if not new_text: # the field is being cleared
             self.entered_number = 0
             return True
-
         try:
             self.entered_number = int(new_text)
             return True
@@ -82,9 +83,11 @@ class Layout:
             self.formula()
 
         elif method == "root":
-            self.total = float(round(math.sqrt(self.entered_number),5))
-            self.show_calc_label.set(u"\u221A" + str(self.entered_number))
-            self.result_label.set(self.total)
+            #self.total = float(round(math.sqrt(self.entered_number),5))
+            #self.show_calc_label.set(u"\u221A" + str(self.entered_number))
+            #self.result_label.set(self.total)
+            self.last_operator = "**(1/2)"
+            self.formula()
 
         elif method == "solve":
             if self.solved:
@@ -94,6 +97,7 @@ class Layout:
 
             y = str(self.show_calc_label.get())
             self.show_calc_label.set(y+x)
+            self.entry.delete(0, END)
 
             try:
                 eval(y+x)
@@ -118,13 +122,14 @@ class Layout:
         if self.solved:
             self.show_calc_label.set(str(self.entered_number) + self.last_operator)
             self.solved = False
+            self.entry.delete(0, END)
             
         else:
             self.show_calc_label.set(str(self.show_calc_label.get()) + str(self.entered_number) + self.last_operator)
-            
+            self.entry.delete(0, END)
 
         self.result_label.set(self.total)
-        self.entry.delete(0, END)
+        
 root = Tk()
 my_gui = Layout(root)
 root.mainloop()
