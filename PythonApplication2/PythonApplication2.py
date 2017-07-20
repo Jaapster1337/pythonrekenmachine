@@ -90,8 +90,11 @@ class Layout:
             self.formula()
 
         elif method == "solve":
-            if self.solved:
+            
+            if self.solved : #True
                 x = self.last_operator+str(eval(self.show_calc_label.get()))
+            elif self.last_operator == "**(1/2)":
+                x = ("")
             else:
                 x = str(self.entered_number)
 
@@ -123,6 +126,12 @@ class Layout:
             self.show_calc_label.set(str(self.entered_number) + self.last_operator)
             self.solved = False
             self.entry.delete(0, END)
+
+        #elif self.last_operator == "**(1/2)":
+         #   x = str(self.entered_number) + self.last_operator
+          #  self.show_calc_label.set(x)
+           # self.entry.delete(0, END)
+            #print(x)
 
         else:
             self.show_calc_label.set(str(self.show_calc_label.get()) + str(self.entered_number) + self.last_operator)
