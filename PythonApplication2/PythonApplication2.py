@@ -38,8 +38,8 @@ class Layout:
         #LAYOUT
         self.label.grid(row=0, column=0, sticky=W)
         self.show_calc.grid(row=2, column=0, sticky=W)
-        self.result.grid(row=0, column=1, columnspan=2, sticky=E)
-        self.entry.grid(row=1, column=0, columnspan=3, sticky=W+E)
+        self.result.grid(row=0, column=2, columnspan=2, sticky=W+E)
+        self.entry.grid(row=1, column=2, columnspan=2, sticky=W+E)
        
 
         self.add_button.grid(row=3, column=0, sticky=W+E)
@@ -93,8 +93,10 @@ class Layout:
             
             if self.solved : #True
                 x = self.last_operator+str(eval(self.show_calc_label.get()))
-            elif self.last_operator == "**(1/2)":
+            elif self.last_operator == "**(1/2)" and not self.solved:
                 x = ("")
+
+
             else:
                 x = str(self.entered_number)
 
@@ -126,12 +128,6 @@ class Layout:
             self.show_calc_label.set(str(self.entered_number) + self.last_operator)
             self.solved = False
             self.entry.delete(0, END)
-
-        #elif self.last_operator == "**(1/2)":
-         #   x = str(self.entered_number) + self.last_operator
-          #  self.show_calc_label.set(x)
-           # self.entry.delete(0, END)
-            #print(x)
 
         else:
             self.show_calc_label.set(str(self.show_calc_label.get()) + str(self.entered_number) + self.last_operator)
