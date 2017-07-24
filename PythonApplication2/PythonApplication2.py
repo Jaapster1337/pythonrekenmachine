@@ -11,6 +11,7 @@ class Layout:
         self.entered_number = 0
         self.solved = False
         self.last_operator = ("")
+        self.memory = ("")
 
         self.result_label = IntVar()
         self.result_label.set(self.total)
@@ -31,6 +32,8 @@ class Layout:
         self.div_button = Button(master, text="/", command=lambda: self.update("divide"))
         self.power_button = Button(master, text="^", command=lambda: self.update("power"))
         self.root_button = Button(master, text=u"\u221A", command=lambda: self.update("root"))
+        self.m_add_button = Button(master, text="M+", command=lambda: self.update("m+"))
+        self.m_sub_button = Button(master, text="M-", command=lambda: self.update("m-"))
         self.solve_button = Button(master, text="=", command=lambda: self.update("solve"))
         self.reset_button = Button(master, text="Reset", command=lambda: self.update("reset"))
 
@@ -41,15 +44,16 @@ class Layout:
         self.result.grid(row=0, column=1, columnspan=2, sticky=W+E)
         self.entry.grid(row=1, column=0, columnspan=2, sticky=W+E)
        
-
-        self.add_button.grid(row=3, column=0, sticky=W+E)
-        self.subtract_button.grid(row=3, column=1, sticky=W+E)
-        self.mult_button.grid(row=4, column=0, sticky=W+E)
-        self.div_button.grid(row=4, column=1, sticky=W+E)
-        self.root_button.grid(row=5, column=0, sticky=W+E)
-        self.power_button.grid(row=5, column=1, sticky=W+E)
-        self.solve_button.grid(row=6, column=0, sticky=W+E)
-        self.reset_button.grid(row=6, column=1, sticky=W+E)
+        self.m_add_button.grid(row=3, column=0, sticky=W+E)
+        self.m_sub_button.grid(row=3, column=1, sticky=W+E)
+        self.add_button.grid(row=4, column=0, sticky=W+E)
+        self.subtract_button.grid(row=4, column=1, sticky=W+E)
+        self.mult_button.grid(row=5, column=0, sticky=W+E)
+        self.div_button.grid(row=5, column=1, sticky=W+E)
+        self.root_button.grid(row=6, column=0, sticky=W+E)
+        self.power_button.grid(row=6, column=1, sticky=W+E)
+        self.solve_button.grid(row=7, column=0, sticky=W+E)
+        self.reset_button.grid(row=7, column=1, sticky=W+E)
         
     def validate(self, new_text):
         if not new_text: # the field is being cleared
@@ -83,9 +87,6 @@ class Layout:
             self.formula()
 
         elif method == "root":
-            #self.total = float(round(math.sqrt(self.entered_number),5))
-            #self.show_calc_label.set(u"\u221A" + str(self.entered_number))
-            #self.result_label.set(self.total)
             if self.last_operator == "**(1/2)":
                 self.reset()
                 self.result_label.set("Operation Error")    
@@ -94,16 +95,27 @@ class Layout:
                 
             self.last_operator = "**(1/2)"
             self.formula()
+
+        elif method == "m+":
+            if self.memory == (""):
+                self.memory = (self.result_label.get())
+            else:
+                self.result_label.set(self.result_label.get() + self.memory)
+                print(self.result_label.get())
+
+        elif method == "m-":
+            if self.memory == (""):
+                self.memory = (self.result_label.get())
+            else:
+                self.result_label.set(self.result_label.get() - self.memory)
+                print(self.result_label.get())
             
 
-
-        elif method == "solve":
-            
+        elif method == "solve":            
             if self.solved : #True
                 x = self.last_operator+str(eval(self.show_calc_label.get()))
             elif self.last_operator == "**(1/2)":
                 x = ("")
-
             else:
                 x = str(self.entered_number)
 
@@ -132,13 +144,13 @@ class Layout:
         self.total = 0
         self.show_calc_label.set("")
         self.result_label.set("")
+        self.last_result = ("")
 
     def formula(self):
         if self.solved:
             self.show_calc_label.set(str(self.entered_number) + self.last_operator)
             self.solved = False
             self.entry.delete(0, END)
-
         else:
             self.show_calc_label.set(str(self.show_calc_label.get()) + str(self.entered_number) + self.last_operator)
             self.entry.delete(0, END)
