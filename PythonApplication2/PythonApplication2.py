@@ -1,5 +1,5 @@
 import sys
-import math
+from math import *
 from tkinter import *
 
 class Layout:
@@ -93,9 +93,8 @@ class Layout:
             
             if self.solved : #True
                 x = self.last_operator+str(eval(self.show_calc_label.get()))
-            elif self.last_operator == "**(1/2)" and not self.solved:
+            elif self.last_operator == "**(1/2)":
                 x = ("")
-
 
             else:
                 x = str(self.entered_number)
@@ -113,8 +112,8 @@ class Layout:
                 self.result_label.set("Syntax Error")
                 pass
             else:
-                self.total = round(eval(y+x),5)
-                self.result_label.set(eval(y+x))
+                self.total = eval(y+x)
+                self.result_label.set(round(eval(y+x),5))
                 self.solved = True
 
         else: # reset
