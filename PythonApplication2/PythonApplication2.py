@@ -37,7 +37,7 @@ class Layout:
 
         #LAYOUT
         self.label.grid(row=0, column=0, sticky=W)
-        self.show_calc.grid(row=2, column=0, sticky=W)
+        self.show_calc.grid(row=2, column=0, columnspan=2, sticky=W)
         self.result.grid(row=0, column=1, columnspan=2, sticky=W+E)
         self.entry.grid(row=1, column=0, columnspan=2, sticky=W+E)
        
@@ -86,8 +86,17 @@ class Layout:
             #self.total = float(round(math.sqrt(self.entered_number),5))
             #self.show_calc_label.set(u"\u221A" + str(self.entered_number))
             #self.result_label.set(self.total)
+            if self.last_operator == "**(1/2)":
+                self.result_label.set("Operation Error")
+                self.total = 0
+                self.show_calc_label.set("")
+                self.solved = False
+                return
+                
             self.last_operator = "**(1/2)"
             self.formula()
+            
+
 
         elif method == "solve":
             
@@ -112,7 +121,7 @@ class Layout:
                 self.result_label.set("Syntax Error")
                 pass
             else:
-                self.total = eval(y+x)
+                self.total = round(eval(y+x),5)
                 self.result_label.set(round(eval(y+x),5))
                 self.solved = True
 
@@ -121,7 +130,7 @@ class Layout:
             self.show_calc_label.set("")
             self.result_label.set("")
             self.solved = False
-
+    
     def formula(self):
         if self.solved:
             self.show_calc_label.set(str(self.entered_number) + self.last_operator)
