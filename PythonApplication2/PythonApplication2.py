@@ -87,10 +87,9 @@ class Layout:
             #self.show_calc_label.set(u"\u221A" + str(self.entered_number))
             #self.result_label.set(self.total)
             if self.last_operator == "**(1/2)":
-                self.result_label.set("Operation Error")
-                self.total = 0
-                self.show_calc_label.set("")
-                self.solved = False
+                self.reset()
+                self.result_label.set("Operation Error")    
+                self.solved = False 
                 return
                 
             self.last_operator = "**(1/2)"
@@ -126,11 +125,14 @@ class Layout:
                 self.solved = True
 
         else: # reset
-            self.total = 0
-            self.show_calc_label.set("")
-            self.result_label.set("")
+            self.reset()
             self.solved = False
     
+    def reset(self):
+        self.total = 0
+        self.show_calc_label.set("")
+        self.result_label.set("")
+
     def formula(self):
         if self.solved:
             self.show_calc_label.set(str(self.entered_number) + self.last_operator)
