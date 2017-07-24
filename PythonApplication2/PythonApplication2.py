@@ -38,18 +38,18 @@ class Layout:
         #LAYOUT
         self.label.grid(row=0, column=0, sticky=W)
         self.show_calc.grid(row=2, column=0, sticky=W)
-        self.result.grid(row=0, column=2, columnspan=2, sticky=W+E)
-        self.entry.grid(row=1, column=2, columnspan=2, sticky=W+E)
+        self.result.grid(row=0, column=1, columnspan=2, sticky=W+E)
+        self.entry.grid(row=1, column=0, columnspan=2, sticky=W+E)
        
 
         self.add_button.grid(row=3, column=0, sticky=W+E)
-        self.subtract_button.grid(row=3, column=1, columnspan=2, sticky=W+E)
+        self.subtract_button.grid(row=3, column=1, sticky=W+E)
         self.mult_button.grid(row=4, column=0, sticky=W+E)
-        self.div_button.grid(row=4, column=1, columnspan=2, sticky=W+E)
+        self.div_button.grid(row=4, column=1, sticky=W+E)
         self.root_button.grid(row=5, column=0, sticky=W+E)
-        self.power_button.grid(row=5, column=1, columnspan=2, sticky=W+E)
-        self.solve_button.grid(row=6, column=0, columnspan=2,sticky=W+E)
-        self.reset_button.grid(row=6, column=2, sticky=W+E)
+        self.power_button.grid(row=5, column=1, sticky=W+E)
+        self.solve_button.grid(row=6, column=0, sticky=W+E)
+        self.reset_button.grid(row=6, column=1, sticky=W+E)
         
     def validate(self, new_text):
         if not new_text: # the field is being cleared
