@@ -32,8 +32,8 @@ class Layout:
         self.div_button = Button(master, text="/", command=lambda: self.update("divide"))
         self.power_button = Button(master, text="^", command=lambda: self.update("power"))
         self.root_button = Button(master, text=u"\u221A", command=lambda: self.update("root"))
-        self.m_add_button = Button(master, text="M+", command=lambda: self.update("m+"))
-        self.m_sub_button = Button(master, text="M-", command=lambda: self.update("m-"))
+        self.m_add_button = Button(master, text="M+", command=lambda: self.update("m+"), state='disabled')
+        self.m_sub_button = Button(master, text="M-", command=lambda: self.update("m-"), state='disabled')
         self.solve_button = Button(master, text="=", command=lambda: self.update("solve"))
         self.reset_button = Button(master, text="Reset", command=lambda: self.update("reset"))
 
@@ -111,7 +111,9 @@ class Layout:
                 print(self.result_label.get())
             
 
-        elif method == "solve":            
+        elif method == "solve":
+            self.m_add_button.config(state='normal')
+            self.m_sub_button.config(state='normal')
             if self.solved : #True
                 x = self.last_operator+str(eval(self.show_calc_label.get()))
             elif self.last_operator == "**(1/2)":
