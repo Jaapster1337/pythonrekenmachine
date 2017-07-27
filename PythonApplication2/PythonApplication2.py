@@ -5,7 +5,7 @@ from tkinter import *
 class Layout:
     def __init__(self, master):
         self.master = master
-        master.title("Rekenmachine")
+        master.title("Calculator")
 
         self.total = 0
         self.entered_number = 0
@@ -112,11 +112,13 @@ class Layout:
             
 
         elif method == "solve":
+            print(self.entry.get())
             self.m_add_button.config(state='normal')
             self.m_sub_button.config(state='normal')
+           
             if self.solved : #True
                 x = self.last_operator+str(eval(self.show_calc_label.get()))
-            elif self.last_operator == "**(1/2)":
+            elif self.last_operator == "**(1/2)" and not self.solved:
                 x = ("")
             else:
                 x = str(self.entered_number)
@@ -147,6 +149,10 @@ class Layout:
         self.show_calc_label.set("")
         self.result_label.set("")
         self.last_result = ("")
+        self.memory = ("")
+        self.m_add_button.config(state='disabled')
+        self.m_sub_button.config(state='disabled')
+
 
     def formula(self):
         if self.solved:
