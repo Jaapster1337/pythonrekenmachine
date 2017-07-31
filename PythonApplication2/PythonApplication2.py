@@ -36,6 +36,9 @@ class Layout:
         self.m_sub_button = Button(master, text="M-", command=lambda: self.update("m-"), state='disabled')
         self.solve_button = Button(master, text="=", command=lambda: self.update("solve"))
         self.reset_button = Button(master, text="Reset", command=lambda: self.update("reset"))
+        #for x in range(0,9):            
+            #self.button.append(Button(self, text=i, command=lambda: self.update("enter_number")))
+            #i+=1
 
 
         #LAYOUT
@@ -138,11 +141,11 @@ class Layout:
                 self.total = round(eval(y+x),5)
                 self.result_label.set(round(eval(y+x),5))
                 self.solved = True
-            list is str(self.show_calc_label.get())
-            for '0' in list:
-                i+=1
-                if i>1:
-                    self.show_calc_label.set(0)
+            #list = str(self.show_calc_label.get())
+            #for 0 in list:
+                #i+=1
+                #if i>1:
+                    #self.show_calc_label.set(0)
 
 
                 
