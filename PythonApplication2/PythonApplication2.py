@@ -1,7 +1,6 @@
 import sys
 from math import *
 from tkinter import *
-
 class Layout:
     def __init__(self, master):
         self.master = master
@@ -12,6 +11,8 @@ class Layout:
         self.solved = False
         self.last_operator = ("")
         self.memory = ("")
+        self.number = []
+        self.calc_list = []
 
         self.result_label = IntVar()
         self.result_label.set(self.total)
@@ -32,31 +33,58 @@ class Layout:
         self.div_button = Button(master, text="/", command=lambda: self.update("divide"))
         self.power_button = Button(master, text="^", command=lambda: self.update("power"))
         self.root_button = Button(master, text=u"\u221A", command=lambda: self.update("root"))
+        self.dot_button = Button(master, text=".", command=lambda: self.update("dot"))
         self.m_add_button = Button(master, text="M+", command=lambda: self.update("m+"), state='disabled')
         self.m_sub_button = Button(master, text="M-", command=lambda: self.update("m-"), state='disabled')
+        self.m_button = Button(master, text="M",command=lambda: self.update("m"), state='disabled')
+        self.m_erase_button = Button(master, text="ME", command=lambda: self.update("me"), state='disabled')
         self.solve_button = Button(master, text="=", command=lambda: self.update("solve"))
-        self.reset_button = Button(master, text="Reset", command=lambda: self.update("reset"))
-        #for x in range(0,9):            
-            #self.button.append(Button(self, text=i, command=lambda: self.update("enter_number")))
-            #i+=1
+        self.reset_button = Button(master, text="C", command=lambda: self.update("reset"))
+        self.button_0 = Button(master, text="0", command=lambda: self.update("0"))
+        self.button_1 = Button(master, text="1", command=lambda: self.update("1"))
+        self.button_2 = Button(master, text="2", command=lambda: self.update("2"))
+        self.button_3 = Button(master, text="3", command=lambda: self.update("3"))
+        self.button_4 = Button(master, text="4", command=lambda: self.update("4"))
+        self.button_5 = Button(master, text="5", command=lambda: self.update("5"))
+        self.button_6 = Button(master, text="6", command=lambda: self.update("6"))
+        self.button_7 = Button(master, text="7", command=lambda: self.update("7"))
+        self.button_8 = Button(master, text="8", command=lambda: self.update("8"))
+        self.button_9 = Button(master, text="9", command=lambda: self.update("9"))
+
+        
+            
 
 
         #LAYOUT
         self.label.grid(row=0, column=0, sticky=W)
-        self.show_calc.grid(row=2, column=0, columnspan=2, sticky=W)
-        self.result.grid(row=0, column=1, columnspan=2, sticky=W+E)
-        self.entry.grid(row=1, column=0, columnspan=2, sticky=W+E)
+        self.show_calc.grid(row=2, column=0, columnspan=4, sticky=W)
+        self.result.grid(row=0, column=1, columnspan=4, sticky=W+E)
+        self.entry.grid(row=1, column=0, columnspan=4, sticky=W+E)
        
-        self.m_add_button.grid(row=3, column=0, sticky=W+E)
-        self.m_sub_button.grid(row=3, column=1, sticky=W+E)
-        self.add_button.grid(row=4, column=0, sticky=W+E)
-        self.subtract_button.grid(row=4, column=1, sticky=W+E)
-        self.mult_button.grid(row=5, column=0, sticky=W+E)
-        self.div_button.grid(row=5, column=1, sticky=W+E)
-        self.root_button.grid(row=6, column=0, sticky=W+E)
-        self.power_button.grid(row=6, column=1, sticky=W+E)
-        self.solve_button.grid(row=7, column=0, sticky=W+E)
-        self.reset_button.grid(row=7, column=1, sticky=W+E)
+        self.m_button.grid(row=3, column=3, sticky=W+E)
+        self.m_add_button.grid(row=3, column=1, sticky=W+E)
+        self.m_sub_button.grid(row=3, column=2, sticky=W+E)
+        self.m_erase_button.grid(row=3, column=0, sticky=W+E)
+        self.add_button.grid(row=8, column=3, sticky=W+E)
+        self.subtract_button.grid(row=9, column=3, sticky=W+E)
+        self.mult_button.grid(row=7, column=3, sticky=W+E)
+        self.div_button.grid(row=6, column=3, sticky=W+E)
+        self.root_button.grid(row=6, column=1, sticky=W+E)
+        self.power_button.grid(row=6, column=2, sticky=W+E)
+        self.button_0.grid(row=10, column=1, sticky=W+E)
+        self.button_1.grid(row=9, column=0, sticky=W+E)
+        self.button_2.grid(row=9, column=1, sticky=W+E)
+        self.button_3.grid(row=9, column=2, sticky=W+E)
+        self.button_4.grid(row=8, column=0, sticky=W+E)
+        self.button_5.grid(row=8, column=1, sticky=W+E)
+        self.button_6.grid(row=8, column=2, sticky=W+E)
+        self.button_7.grid(row=7, column=0, sticky=W+E)
+        self.button_8.grid(row=7, column=1, sticky=W+E)
+        self.button_9.grid(row=7, column=2, sticky=W+E)
+
+        self.solve_button.grid(row=10, column=2, columnspan=2, sticky=W+E)
+        self.reset_button.grid(row=10, column=0, sticky=W+E)
+        
         
     def validate(self, new_text):
         if not new_text: # the field is being cleared
@@ -69,6 +97,7 @@ class Layout:
             return False
         
     def update(self, method):
+        
         if method == "add":
             self.last_operator = " + "
             self.formula()
@@ -113,7 +142,17 @@ class Layout:
                 self.result_label.set(self.result_label.get() - self.memory)
                 print(self.result_label.get())
             
+        elif method == 1 or 2 or 3 or 4 or 5 or 6 or 7 or 8 or 9 or 0:
+            if len(self.calc_list) == 0:
+                self.calc_list.append(method)
+                print(method+" len = 0")
+            else:
+                self.calc_list.append(method)
+                "".join(self.calc_list)
+                print(method+" len != 0")
+                print(self.calc_list)
 
+            "".join(self.calc_list)
         elif method == "solve":
             self.m_add_button.config(state='normal')
             self.m_sub_button.config(state='normal')
