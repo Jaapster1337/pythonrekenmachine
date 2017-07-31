@@ -112,7 +112,6 @@ class Layout:
             
 
         elif method == "solve":
-            print(self.entry.get())
             self.m_add_button.config(state='normal')
             self.m_sub_button.config(state='normal')
            
@@ -124,7 +123,7 @@ class Layout:
                 x = str(self.entered_number)
 
             y = str(self.show_calc_label.get())
-            self.show_calc_label.set(y+x)
+            self.show_calc_label.set(y+x)            
             self.entry.delete(0, END)
 
             try:
@@ -139,7 +138,14 @@ class Layout:
                 self.total = round(eval(y+x),5)
                 self.result_label.set(round(eval(y+x),5))
                 self.solved = True
+            list is str(self.show_calc_label.get())
+            for '0' in list:
+                i+=1
+                if i>1:
+                    self.show_calc_label.set(0)
 
+
+                
         else: # reset
             self.reset()
             self.solved = False
