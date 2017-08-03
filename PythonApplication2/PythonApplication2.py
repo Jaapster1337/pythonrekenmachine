@@ -108,39 +108,41 @@ class Layout:
             #self.last_operator = " + "
             #self.formula()
 
-        elif method == "subtract":
+        elif method == "subtract" and len(self.full_number) != 0:
             self.full_number += "-"            
             self.show_calc_label.set(self.full_number)
             #self.last_operator = " - "
             #self.formula()
 
-        elif method == "multiply":
+        elif method == "multiply" and len(self.full_number) != 0:
             self.full_number += "*"            
             self.show_calc_label.set(self.full_number)
             #self.last_operator = " * "
             #self.formula()
 
-        elif method == "divide":
+        elif method == "divide" and len(self.full_number) != 0:
             self.full_number += "/"            
             self.show_calc_label.set(self.full_number)
             #self.last_operator = " / "
             #self.formula()
 
-        elif method == "power":
+        elif method == "power" and len(self.full_number) != 0:
             self.full_number += "**"            
-            self.show_calc_label.set(self.full_number)
+            self.show_calc_label.set(self.show_calc_label.get()+"^")
             #self.last_operator = " ** "
             #self.formula()
 
         elif method == "root":
-            if self.last_operator == "**(1/2)":
-                self.reset()
-                self.result_label.set("Operation Error")    
-                self.solved = False 
-                return
+            self.full_number +="**(1/2)"
+            self.show_calc_label.set(self.show_calc_label.get()+u"\u221A")
+            #if self.last_operator == "**(1/2)":
+             #   self.reset()
+              #  self.result_label.set("Operation Error")    
+               # self.solved = False 
+                #return
                 
-            self.last_operator = "**(1/2)"
-            self.formula()
+            #self.last_operator = "**(1/2)"
+            #self.formula()
 
         elif method == "m+":
             if self.memory == (""):
@@ -158,7 +160,7 @@ class Layout:
             
         elif method in self.number_list:            
                 self.full_number += method
-                self.show_calc_label.set(self.full_number)
+                self.show_calc_label.set(self.show_calc_label.get()+method)
             
 
             
