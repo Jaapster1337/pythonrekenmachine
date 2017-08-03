@@ -12,7 +12,9 @@ class Layout:
         self.last_operator = ("")
         self.memory = ("")
         self.number = []
-        self.calc_list = []
+        self.number_list = ["0","1","2","3","4","5","6","7","8","9"]
+        self.method_list = ["add", "subtract", "multiply", "divide", "power", "root", "dot", "m+", "m-", "m", "me", "solve", "reset"]
+        self.full_number = ""
 
         self.result_label = IntVar()
         self.result_label.set(self.total)
@@ -98,25 +100,37 @@ class Layout:
         
     def update(self, method):
         
-        if method == "add":
-            self.last_operator = " + "
-            self.formula()
+        if method == "add" and len(self.full_number) != 0 :
+            self.full_number += "+"            
+            self.show_calc_label.set(self.full_number)
+            print(self.full_number)
+
+            #self.last_operator = " + "
+            #self.formula()
 
         elif method == "subtract":
-            self.last_operator = " - "
-            self.formula()
+            self.full_number += "-"            
+            self.show_calc_label.set(self.full_number)
+            #self.last_operator = " - "
+            #self.formula()
 
         elif method == "multiply":
-            self.last_operator = " * "
-            self.formula()
+            self.full_number += "*"            
+            self.show_calc_label.set(self.full_number)
+            #self.last_operator = " * "
+            #self.formula()
 
         elif method == "divide":
-            self.last_operator = " / "
-            self.formula()
+            self.full_number += "/"            
+            self.show_calc_label.set(self.full_number)
+            #self.last_operator = " / "
+            #self.formula()
 
         elif method == "power":
-            self.last_operator = " ** "
-            self.formula()
+            self.full_number += "**"            
+            self.show_calc_label.set(self.full_number)
+            #self.last_operator = " ** "
+            #self.formula()
 
         elif method == "root":
             if self.last_operator == "**(1/2)":
@@ -142,19 +156,19 @@ class Layout:
                 self.result_label.set(self.result_label.get() - self.memory)
                 print(self.result_label.get())
             
-        elif method == 1 or 2 or 3 or 4 or 5 or 6 or 7 or 8 or 9 or 0:
-            if len(self.calc_list) == 0:
-                self.calc_list.append(method)
-                print(method+" len = 0")
-            else:
-                self.calc_list.append(method)
-                "".join(self.calc_list)
-                print(method+" len != 0")
-                print(self.calc_list)
+        elif method in self.number_list:            
+                self.full_number += method
+                self.show_calc_label.set(self.full_number)
+            
 
-            "".join(self.calc_list)
+            
         elif method == "solve":
-            self.m_add_button.config(state='normal')
+            if self.full_number != "":
+                result = eval(self.full_number)
+                self.result_label.set(round(result,5))
+            else:
+                self.result_label.set("no entry")
+            '''self.m_add_button.config(state='normal')
             self.m_sub_button.config(state='normal')
            
             if self.solved : #True
@@ -184,7 +198,7 @@ class Layout:
             #for 0 in list:
                 #i+=1
                 #if i>1:
-                    #self.show_calc_label.set(0)
+                    #self.show_calc_label.set(0)'''
 
 
                 
@@ -193,13 +207,16 @@ class Layout:
             self.solved = False
     
     def reset(self):
-        self.total = 0
+        #self.total = 0
         self.show_calc_label.set("")
-        self.result_label.set("")
-        self.last_result = ("")
-        self.memory = ("")
-        self.m_add_button.config(state='disabled')
-        self.m_sub_button.config(state='disabled')
+        self.full_number = ("")
+        self.solved = True
+
+        #self.result_label.set("")
+        #self.last_result = ("")
+        #self.memory = ("")
+        #self.m_add_button.config(state='disabled')
+        #self.m_sub_button.config(state='disabled')
 
 
     def formula(self):
