@@ -54,16 +54,13 @@ class Layout:
         self.button_8 = Button(master, text="8", command=lambda: self.update("8"))
         self.button_9 = Button(master, text="9", command=lambda: self.update("9"))
 
-        
-            
-
-
         #LAYOUT
+        #GRID
         self.label.grid(row=0, column=0, sticky=W)
         self.show_calc.grid(row=2, column=0, columnspan=4, sticky=W)
         self.result.grid(row=0, column=1, columnspan=4, sticky=W+E)
         self.entry.grid(row=1, column=0, columnspan=4, sticky=W+E)
-       
+        #BUTTONS
         self.m_button.grid(row=3, column=3, sticky=W+E)
         self.m_add_button.grid(row=3, column=1, sticky=W+E)
         self.m_sub_button.grid(row=3, column=2, sticky=W+E)
@@ -84,7 +81,6 @@ class Layout:
         self.button_7.grid(row=7, column=0, sticky=W+E)
         self.button_8.grid(row=7, column=1, sticky=W+E)
         self.button_9.grid(row=7, column=2, sticky=W+E)
-
         self.solve_button.grid(row=10, column=2, columnspan=2, sticky=W+E)
         self.reset_button.grid(row=10, column=0, sticky=W+E)
         
@@ -106,44 +102,26 @@ class Layout:
             self.show_calc_label.set(self.full_number)
             print(self.full_number)
 
-            #self.last_operator = " + "
-            #self.formula()
-
         elif method == "subtract" and len(self.full_number) != 0:
             self.full_number += "-"            
             self.show_calc_label.set(self.full_number)
-            #self.last_operator = " - "
-            #self.formula()
 
         elif method == "multiply" and len(self.full_number) != 0:
             self.full_number += "*"            
             self.show_calc_label.set(self.full_number)
-            #self.last_operator = " * "
-            #self.formula()
 
         elif method == "divide" and len(self.full_number) != 0:
             self.full_number += "/"            
             self.show_calc_label.set(self.full_number)
-            #self.last_operator = " / "
-            #self.formula()
 
         elif method == "power" and len(self.full_number) != 0:
             self.full_number += "**"            
             self.show_calc_label.set(self.show_calc_label.get()+"^")
-            #self.last_operator = " ** "
-            #self.formula()
 
         elif method == "root" and len(self.full_number) != 0:
             self.full_number +="**(1/2)"
             self.show_calc_label.set(self.show_calc_label.get()+u"\u221A")
-            #if self.last_operator == "**(1/2)":
-             #   self.reset()
-              #  self.result_label.set("Operation Error")    
-               # self.solved = False 
-                #return
-                
-            #self.last_operator = "**(1/2)"
-            #self.formula()
+
         elif method == "m":            
             self.memory = (self.result_label.get())
             self.m_add_button.config(state='normal')
@@ -152,11 +130,10 @@ class Layout:
 
         elif method == "m+":
                 self.result_label.set(self.result_label.get() + self.memory)
-                #print(self.result_label.get())
 
         elif method == "m-":
                 self.result_label.set(self.result_label.get() - self.memory)
-                #print(self.result_label.get())
+                
         elif method == "me":
             self.m_add_button.config(state='disabled')
             self.m_sub_button.config(state='disabled')
@@ -165,9 +142,7 @@ class Layout:
         
         elif method in self.number_list:            
                 self.full_number += method
-                self.show_calc_label.set(self.show_calc_label.get()+method)
-            
-
+                self.show_calc_label.set(self.show_calc_label.get()+method)  
             
         elif method == "solve":
             if self.full_number != "":
@@ -183,7 +158,6 @@ class Layout:
                 self.result_label.set(round(result,5))
             else:
                 self.result_label.set("no entry")
-
                 
         else: # reset
             self.reset()
@@ -196,17 +170,11 @@ class Layout:
         self.result_label.set("")
         self.solved = True
 
-        #self.result_label.set("")
-        #self.last_result = ("")
-        #self.memory = ("")
-        #self.m_add_button.config(state='disabled')
-        #self.m_sub_button.config(state='disabled')
-
-        
-
-
-
-
+    def check_for_double(self):
+        if self.full_number[-1] == method:
+            print(method)
+        else:
+            print(self.full_number[-1])
     def formula(self):
         if self.solved:
             self.show_calc_label.set(str(self.entered_number) + self.last_operator)
