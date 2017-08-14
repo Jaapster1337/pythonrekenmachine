@@ -146,6 +146,9 @@ class Layout:
             #self.formula()
         elif method == "m":            
             self.memory = (self.result_label.get())
+            self.m_add_button.config(state='normal')
+            self.m_sub_button.config(state='normal')
+            self.m_erase_button.config(state='normal')
 
         elif method == "m+":
                 self.result_label.set(self.result_label.get() + self.memory)
@@ -199,10 +202,7 @@ class Layout:
         #self.m_add_button.config(state='disabled')
         #self.m_sub_button.config(state='disabled')
 
-    def button_state(self):
-        self.m_add_button.config(state='normal')
-        self.m_sub_button.config(state='normal')
-        self.m_erase_button.config(state='normal')
+        
 
 
 
