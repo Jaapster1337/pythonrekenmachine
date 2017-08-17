@@ -43,18 +43,18 @@ class Layout:
         self.m_erase_button = Button(master, text="ME", command=lambda: self.update("me"), state='disabled')
         self.solve_button = Button(master, text="=", command=lambda: self.update("solve"))
         self.reset_button = Button(master, text="C", command=lambda: self.update("reset"))
-        for i in range(9):
-            self.button_i =Button(master, text=i, command=lambda: self.update("%i"))
-        #self.button_0 = Button(master, text="0", command=lambda: self.update("0"))
-        #self.button_1 = Button(master, text="1", command=lambda: self.update("1"))
-        #self.button_2 = Button(master, text="2", command=lambda: self.update("2"))
-        #self.button_3 = Button(master, text="3", command=lambda: self.update("3"))
-        #self.button_4 = Button(master, text="4", command=lambda: self.update("4"))
-        #self.button_5 = Button(master, text="5", command=lambda: self.update("5"))
-        #self.button_6 = Button(master, text="6", command=lambda: self.update("6"))
-        #self.button_7 = Button(master, text="7", command=lambda: self.update("7"))
-        #self.button_8 = Button(master, text="8", command=lambda: self.update("8"))
-        #self.button_9 = Button(master, text="9", command=lambda: self.update("9"))
+        #for i in range(9):
+            #self.button_ =Button(master, text=i, command=lambda: self.update("%s"))
+        self.button_0 = Button(master, name="0", command=lambda: self.update("0"))
+        self.button_1 = Button(master, text="1", command=lambda: self.update("1"))
+        self.button_2 = Button(master, text="2", command=lambda: self.update("2"))
+        self.button_3 = Button(master, text="3", command=lambda: self.update("3"))
+        self.button_4 = Button(master, text="4", command=lambda: self.update("4"))
+        self.button_5 = Button(master, text="5", command=lambda: self.update("5"))
+        self.button_6 = Button(master, text="6", command=lambda: self.update("6"))
+        self.button_7 = Button(master, text="7", command=lambda: self.update("7"))
+        self.button_8 = Button(master, text="8", command=lambda: self.update("8"))
+        self.button_9 = Button(master, text="9", command=lambda: self.update("9"))
 
         #LAYOUT
         #GRID
@@ -100,7 +100,7 @@ class Layout:
     def update(self, method):
         
         if method == "add" and len(self.full_number) != 0 :
-            self.full_number += method            
+            self.full_number += "+"            
             self.show_calc_label.set(self.full_number)
             self.entry.delete(0,END)            
 
@@ -172,6 +172,7 @@ class Layout:
         self.full_number = ("")
         self.result_label.set("")
         self.solved = True
+        self.entry.delete(0,END)
 
     def check_for_double(self): #not used
         if self.full_number[-1] == method:
