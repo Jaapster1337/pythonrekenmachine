@@ -10,11 +10,11 @@ class Layout:
         self.entered_number = 0
         self.solved = False
         self.last_operator = ("")
-        self.memory = ("")
+        self.memory = (0.0)
         self.number = []
         self.number_list = ["0","1","2","3","4","5","6","7","8","9"]
         self.method_list = ["add", "subtract", "multiply", "divide", "power", "root", "dot", "m+", "m-", "m", "me", "solve", "reset"]
-        self.operator_pairs = {"add":"+", "subtract":"-", "multiply":"*", "divide":"/", "power":"^", "root":"**(1/2)", "dot":".", "m+":"m+","m-":"m-", "m":"m","me":"me", "solve":"=", "reset":"c"} #unfinished
+        self.operator_pairs = {"add":"+", "subtract":"-", "multiply":"*", "divide":"/", "power":"**", "root":"**(1/2)", "dot":".", "m+":"m+","m-":"m-", "m":"m","me":"me", "solve":"=", "reset":"c"} #unfinished
         self.full_number = ""
        
         self.result_label = IntVar()
@@ -43,8 +43,6 @@ class Layout:
         self.m_erase_button = Button(master, text="ME", command=lambda: self.update("me"), state='disabled')
         self.solve_button = Button(master, text="=", command=lambda: self.update("solve"))
         self.reset_button = Button(master, text="C", command=lambda: self.update("reset"))
-        #for i in range(9):
-            #self.button_ =Button(master, text=i, command=lambda: self.update("%s"))
         self.button_0 = Button(master, text="0", command=lambda: self.update("0"))
         self.button_1 = Button(master, text="1", command=lambda: self.update("1"))
         self.button_2 = Button(master, text="2", command=lambda: self.update("2"))
@@ -83,7 +81,8 @@ class Layout:
         self.button_7.grid(row=7, column=0, sticky=W+E)
         self.button_8.grid(row=7, column=1, sticky=W+E)
         self.button_9.grid(row=7, column=2, sticky=W+E)
-        self.solve_button.grid(row=10, column=2, columnspan=2, sticky=W+E)
+        self.dot_button.grid(row=10, column=2, sticky=W+E )
+        self.solve_button.grid(row=10, column=3, sticky=W+E)
         self.reset_button.grid(row=10, column=0, sticky=W+E)
         
         
@@ -100,8 +99,8 @@ class Layout:
     def update(self, method):
         
         if method == "add" and len(self.full_number) !=0:
-            self.merge(method)       
-
+            self.merge(method)
+    
         elif method == "subtract" and len(self.full_number) !=0:
             self.merge(method)       
 
@@ -115,26 +114,31 @@ class Layout:
 
 
         elif method == "power" and len(self.full_number) !=0:
-            self.merge(method)       
-
+            self.merge(method)
+        
+        elif method == "dot":
+            self.merge(method)
 
         elif method == "root":
             self.full_number +="**(1/2)"
-            self.show_calc_label.set(self.show_calc_label.get()+u"\u221A")     
+            self.show_calc_label.set(self.show_calc_label.get()+u"\u221A")    
+            
+        
 
 
         elif method == "m":            
-            self.memory = (self.result_label.get())
+            self.memory = float(self.result_label.get())
             self.m_add_button.config(state='normal')
             self.m_sub_button.config(state='normal')
             self.m_erase_button.config(state='normal')
 
         elif method == "m+":
-                self.result_label.set(self.result_label.get() + self.memory)
-
+                self.result_label.set(float(self.result_label.get() + float(self.memory)))
+                print(float(self.memory))
         elif method == "m-":
-                self.result_label.set(self.result_label.get() - self.memory)
-                
+                self.result_label.set(float(self.result_label.get() - float(self.memory)))
+                print(float(self.memory))
+
         elif method == "me":
             self.m_add_button.config(state='disabled')
             self.m_sub_button.config(state='disabled')
@@ -145,9 +149,10 @@ class Layout:
                 self.full_number += method
                 self.show_calc_label.set(self.show_calc_label.get()+method)
                 self.entry.insert(str(len(self.entry.get())), method)   
-
+           
 
         elif method == "solve":
+            self.solved == True
             if self.full_number != "":
                 try: 
                     eval(self.full_number)
@@ -179,59 +184,18 @@ class Layout:
         self.solved = True
         self.entry.delete(0,END)
 
-    def check_for_double(self): #not used
-        if self.full_number[-1] == method:
-            #print(method)
+    def check_for_double(self,method): #not used
+        if self.full_number[-2:] == self.operator_pairs[method]+self.operator_pairs[method]:
+            self.full_number==self.full_number[:-1]
+            print(self.operator_pairs[method]+self.operator_pairs[method])
+            print(self.full_number)
+            print(self.full_number[-2:])
             pass
         else:
-            #print(self.full_number[-1])
+            #print(self.full_number[-1]+"2")
             pass
-    def formula(self,method):
-        
-        #array maken met methodnaam en methodoperator pairs om functie te maken die de if else versimpeld
-        '''if self.solved:
-            self.show_calc_label.set(str(self.entered_number) + self.last_operator)
-            self.solved = False
-            self.entry.delete(0, END)
-        else:
-            self.show_calc_label.set(str(self.show_calc_label.get()) + str(self.entered_number) + self.last_operator)
-            self.entry.delete(0, END)
-
-        self.result_label.set(self.total)'''
         
 root = Tk()
 my_gui = Layout(root)
 root.mainloop()
 
-#this was above the reset function
-'''self.m_add_button.config(state='normal')
-            self.m_sub_button.config(state='normal')
-           
-            if self.solved : #True
-                x = self.last_operator+str(eval(self.show_calc_label.get()))
-            elif self.last_operator == "**(1/2)" and not self.solved:
-                x = ("")
-            else:
-                x = str(self.entered_number)
-
-            y = str(self.show_calc_label.get())
-            self.show_calc_label.set(y+x)            
-            self.entry.delete(0, END)
-
-            try:
-                eval(y+x)
-            except ZeroDivisionError:
-                self.result_label.set("you can not divide by zero")
-                pass
-            except SyntaxError:
-                self.result_label.set("Syntax Error")
-                pass
-            else:
-                self.total = round(eval(y+x),5)
-                self.result_label.set(round(eval(y+x),5))
-                self.solved = True
-            #list = str(self.show_calc_label.get())
-            #for 0 in list:
-                #i+=1
-                #if i>1:
-                    #self.show_calc_label.set(0)'''
