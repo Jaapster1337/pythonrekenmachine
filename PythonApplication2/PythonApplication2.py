@@ -121,10 +121,7 @@ class Layout:
 
         elif method == "root":
             self.full_number +="**(1/2)"
-            self.show_calc_label.set(self.show_calc_label.get()+u"\u221A")    
-            
-        
-
+            self.show_calc_label.set(self.show_calc_label.get()+u"\u221A")
 
         elif method == "m":            
             self.memory = float(self.result_label.get())
@@ -133,37 +130,37 @@ class Layout:
             self.m_erase_button.config(state='normal')
 
         elif method == "m+":
-                self.result_label.set(float(self.result_label.get() + float(self.memory)))
-                print(float(self.memory))
+                self.result_label.set(self.result_label.get() + (self.memory))
+                #print(self.memory)
         elif method == "m-":
-                self.result_label.set(float(self.result_label.get() - float(self.memory)))
-                print(float(self.memory))
+                self.result_label.set(self.result_label.get() - (self.memory))
+                #print(float(self.memory))
 
         elif method == "me":
             self.m_add_button.config(state='disabled')
             self.m_sub_button.config(state='disabled')
             self.m_erase_button.config(state='disabled')
-            self.memory = ("")
+            self.memory = (0.0)
         
         elif method in self.number_list: #number buttons
                 self.full_number += method
                 self.show_calc_label.set(self.show_calc_label.get()+method)
-                self.entry.insert(str(len(self.entry.get())), method)   
-           
+                self.entry.insert(str(len(self.entry.get())), method)
 
         elif method == "solve":
             self.solved == True
             if self.full_number != "":
-                try: 
-                    eval(self.full_number)
-                except ZeroDivisionError:
-                    self.result_label.set("you can't divide by zero")
-                    pass
-                except SyntaxError:
-                    self.result_label.set("Syntax error")
-                    pass
-                result = eval(self.full_number)
-                self.result_label.set(round(result,5))
+                    try: 
+                        eval(self.full_number)
+                    except ZeroDivisionError:
+                        self.result_label.set("you can't divide by zero")
+                        pass
+                    except SyntaxError:
+                        self.result_label.set("Syntax error")
+                        pass
+                    result = eval(self.full_number)
+                    self.result_label.set(round(result,5))
+            
             else:
                 self.result_label.set("no entry")
                 
@@ -171,7 +168,7 @@ class Layout:
             self.reset()
             self.solved = False
 
-    def merge(self,method):
+    def merge(self,method): 
        self.full_number += self.operator_pairs[method]
        self.show_calc_label.set(self.full_number)
        self.entry.delete(0,END)
