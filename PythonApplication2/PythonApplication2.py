@@ -14,9 +14,9 @@ class Layout:
         self.number = []
         self.number_list = ["0","1","2","3","4","5","6","7","8","9"]
         self.method_list = ["add", "subtract", "multiply", "divide", "power", "root", "dot", "m+", "m-", "m", "me", "solve", "reset"]
+        self.operator_pairs = {"add":"+", "subtract":"-", "multiply":"*", "divide":"/", "power":"^", "root":"**(1/2)", "dot":".", "m+":"m+","m-":"m-", "m":"m","me":"me", "solve":"=", "reset":"c"} #unfinished
         self.full_number = ""
-        #self.button_state = "closed"
-
+       
         self.result_label = IntVar()
         self.result_label.set(self.total)
         self.result = Label(master, textvariable=self.result_label)
@@ -45,7 +45,7 @@ class Layout:
         self.reset_button = Button(master, text="C", command=lambda: self.update("reset"))
         #for i in range(9):
             #self.button_ =Button(master, text=i, command=lambda: self.update("%s"))
-        self.button_0 = Button(master, name="0", command=lambda: self.update("0"))
+        self.button_0 = Button(master, text="0", command=lambda: self.update("0"))
         self.button_1 = Button(master, text="1", command=lambda: self.update("1"))
         self.button_2 = Button(master, text="2", command=lambda: self.update("2"))
         self.button_3 = Button(master, text="3", command=lambda: self.update("3"))
@@ -99,30 +99,29 @@ class Layout:
         
     def update(self, method):
         
-        if method == "add" and len(self.full_number) != 0 :
-            self.full_number += "+"            
-            self.show_calc_label.set(self.full_number)
-            self.entry.delete(0,END)            
+        if method == "add" and len(self.full_number) !=0:
+            self.merge(method)       
 
-        elif method == "subtract" and len(self.full_number) != 0:
-            self.full_number += "-"            
-            self.show_calc_label.set(self.full_number)            
+        elif method == "subtract" and len(self.full_number) !=0:
+            self.merge(method)       
 
-        elif method == "multiply" and len(self.full_number) != 0:
-            self.full_number += "*"            
-            self.show_calc_label.set(self.full_number)
 
-        elif method == "divide" and len(self.full_number) != 0:
-            self.full_number += "/"            
-            self.show_calc_label.set(self.full_number)
+        elif method == "multiply" and len(self.full_number) !=0:
+            self.merge(method)       
 
-        elif method == "power" and len(self.full_number) != 0:
-            self.full_number += "**"            
-            self.show_calc_label.set(self.show_calc_label.get()+"^")
 
-        elif method == "root" and len(self.full_number) != 0:
+        elif method == "divide" and len(self.full_number) !=0:
+            self.merge(method)       
+
+
+        elif method == "power" and len(self.full_number) !=0:
+            self.merge(method)       
+
+
+        elif method == "root":
             self.full_number +="**(1/2)"
-            self.show_calc_label.set(self.show_calc_label.get()+u"\u221A")
+            self.show_calc_label.set(self.show_calc_label.get()+u"\u221A")     
+
 
         elif method == "m":            
             self.memory = (self.result_label.get())
@@ -145,7 +144,8 @@ class Layout:
         elif method in self.number_list: #number buttons
                 self.full_number += method
                 self.show_calc_label.set(self.show_calc_label.get()+method)
-                self.entry.insert(str(len(self.entry.get())), method)
+                self.entry.insert(str(len(self.entry.get())), method)   
+
 
         elif method == "solve":
             if self.full_number != "":
@@ -165,6 +165,11 @@ class Layout:
         else: # reset
             self.reset()
             self.solved = False
+
+    def merge(self,method):
+       self.full_number += self.operator_pairs[method]
+       self.show_calc_label.set(self.full_number)
+       self.entry.delete(0,END)
     
     def reset(self):
         #self.total = 0
