@@ -8,9 +8,8 @@ class Layout:
 
         self.total = 0
         self.entered_number = 0
-        self.solved = False
         self.last_operator = ("")
-        self.memory = (0.0)
+        self.memory = 0.0
         self.number = []
         self.number_list = ["0","1","2","3","4","5","6","7","8","9"]
         self.method_list = ["add", "subtract", "multiply", "divide", "power", "root", "dot", "m+", "m-", "m", "me", "solve", "reset"]
@@ -36,7 +35,7 @@ class Layout:
         self.div_button = Button(master, text="/", command=lambda: self.update("divide"))
         self.power_button = Button(master, text="^", command=lambda: self.update("power"))
         self.root_button = Button(master, text=u"\u221A", command=lambda: self.update("root"))
-        self.dot_button = Button(master, text=".", command=lambda: self.update("dot"))
+        #self.dot_button = Button(master, text=".", command=lambda: self.update("dot"))
         self.m_add_button = Button(master, text="M+", command=lambda: self.update("m+"), state='disabled')
         self.m_sub_button = Button(master, text="M-", command=lambda: self.update("m-"), state='disabled')
         self.m_button = Button(master, text="M",command=lambda: self.update("m"))
@@ -81,7 +80,7 @@ class Layout:
         self.button_7.grid(row=7, column=0, sticky=W+E)
         self.button_8.grid(row=7, column=1, sticky=W+E)
         self.button_9.grid(row=7, column=2, sticky=W+E)
-        self.dot_button.grid(row=10, column=2, sticky=W+E )
+        #self.dot_button.grid(row=10, column=2, sticky=W+E )
         self.solve_button.grid(row=10, column=3, sticky=W+E)
         self.reset_button.grid(row=10, column=0, sticky=W+E)
         
@@ -123,18 +122,20 @@ class Layout:
             self.full_number +="**(1/2)"
             self.show_calc_label.set(self.show_calc_label.get()+u"\u221A")
 
-        elif method == "m":            
+        elif method == "m":
+            print(self.result_label.get())
             self.memory = (self.result_label.get())
+            print(float(self.memory))
             self.m_add_button.config(state='normal')
             self.m_sub_button.config(state='normal')
             self.m_erase_button.config(state='normal')
 
         elif method == "m+":
                 self.result_label.set(self.result_label.get() + (self.memory))
-                #print(self.memory)
+                print(self.memory)
         elif method == "m-":
                 self.result_label.set(self.result_label.get() - (self.memory))
-                #print(self.memory)
+                print(self.memory)
 
         elif method == "me":
             self.m_add_button.config(state='disabled')
@@ -148,11 +149,8 @@ class Layout:
                 self.entry.insert(str(len(self.entry.get())), method)
 
         elif method == "solve":
-            self.solved == True
-            print(self.full_number)
-            
-            self.full_number.replace(str(self.full_number),"^", "**")
-            print(self.full_number)
+            self.full_number = self.full_number.replace("^", "**")
+           
             if self.full_number != "":
                 try: 
                     eval(self.full_number)
@@ -170,7 +168,6 @@ class Layout:
                 
         else: # reset
             self.reset()
-            self.solved = False
 
     def merge(self,method): 
        self.full_number += self.operator_pairs[method]
@@ -183,14 +180,15 @@ class Layout:
         self.show_calc_label.set("")
         self.full_number = ("")
         self.result_label.set("")
-        self.solved = True
         self.entry.delete(0,END)
 
-    def check_for_double(self,method): #not used
+    def check_for_double(self,method): #checks for double operators
         if self.full_number[-2] == self.operator_pairs[method]:
+           self.full_number = self.full_number[:-1]
+        elif self.full_number[-2] in self.operator_pairs[method] and self.full_number[-1] in self.operator_pairs[method]:
             self.full_number = self.full_number[:-1]
         else:
-            pass
+           pass
         
 root = Tk()
 my_gui = Layout(root)
