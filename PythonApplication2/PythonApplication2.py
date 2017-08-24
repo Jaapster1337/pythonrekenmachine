@@ -14,7 +14,7 @@ class Layout:
         self.number = []
         self.number_list = ["0","1","2","3","4","5","6","7","8","9"]
         self.method_list = ["add", "subtract", "multiply", "divide", "power", "root", "dot", "m+", "m-", "m", "me", "solve", "reset"]
-        self.operator_pairs = {"add":"+", "subtract":"-", "multiply":"*", "divide":"/", "power":"**", "root":"**(1/2)", "dot":".", "m+":"m+","m-":"m-", "m":"m","me":"me", "solve":"=", "reset":"c"} #unfinished
+        self.operator_pairs = {"add":"+", "subtract":"-", "multiply":"*", "divide":"/", "power":"^", "root":"**(1/2)", "dot":".", "m+":"m+","m-":"m-", "m":"m","me":"me", "solve":"=", "reset":"c"} #unfinished
         self.full_number = ""
        
         self.result_label = IntVar()
@@ -149,6 +149,10 @@ class Layout:
 
         elif method == "solve":
             self.solved == True
+            print(self.full_number)
+            
+            self.full_number.replace(str(self.full_number),"^", "**")
+            print(self.full_number)
             if self.full_number != "":
                 try: 
                     eval(self.full_number)
@@ -170,10 +174,8 @@ class Layout:
 
     def merge(self,method): 
        self.full_number += self.operator_pairs[method]
-       print(self.full_number)
        self.check_for_double(method)
        self.show_calc_label.set(self.full_number)
-
        self.entry.delete(0,END)
     
     def reset(self):
@@ -185,10 +187,8 @@ class Layout:
         self.entry.delete(0,END)
 
     def check_for_double(self,method): #not used
-        print(self.full_number)
         if self.full_number[-2] == self.operator_pairs[method]:
             self.full_number = self.full_number[:-1]
-            print(self.full_number)
         else:
             pass
         
