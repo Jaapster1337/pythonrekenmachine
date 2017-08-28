@@ -186,7 +186,7 @@ class Layout:
 
     def check_for_double(self): #checks for double operators
         
-        if re.search(r"\D{2}",self.full_number) is not None:
+        if re.search(r"[\u221A|\D]{2}",self.full_number) is not None:
            self.full_number = self.full_number[:-1]
 
         else:
