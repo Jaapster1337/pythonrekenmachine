@@ -1,4 +1,5 @@
 import sys
+import re
 from math import *
 from tkinter import *
 class Layout:
@@ -116,28 +117,26 @@ class Layout:
             self.merge(method)
         
         elif method == "dot":
-             self.full_number +="."
-             self.show_calc_label.set(self.show_calc_label.get()+".")
-             self.entry.delete(0, END)
+            self.full_number +="."
+            self.show_calc_label.set(self.show_calc_label.get()+".")
+            self.check_for_double()
+            self.entry.delete(0, END)
 
         elif method == "root":
             self.full_number +="**(1/2)"
             self.show_calc_label.set(self.show_calc_label.get()+u"\u221A")
+            self.check_for_double()
 
-        elif method == "m":
-            print(self.result_label.get())
+        elif method == "m":           
             self.memory = self.result_label.get()
-            print(self.memory)
             self.m_add_button.config(state='normal')
             self.m_sub_button.config(state='normal')
             self.m_erase_button.config(state='normal')
 
         elif method == "m+":
                 self.result_label.set(self.result_label.get() + self.memory)
-                print(self.memory)
         elif method == "m-":
                 self.result_label.set(self.result_label.get() - (self.memory))
-                print(self.memory)
 
         elif method == "me":
             self.m_add_button.config(state='disabled')
@@ -163,8 +162,9 @@ class Layout:
                     self.result_label.set("Syntax error")
                     pass
                 result = eval(self.full_number)
-                self.result_label.set(round(result,5))
-            
+                self.result_label.set(round(result,10))
+                self.entry.delete(0,END)
+                
             else:
                 self.result_label.set("no entry")
                 
@@ -173,7 +173,7 @@ class Layout:
 
     def merge(self,method): 
        self.full_number += self.operator_pairs[method]
-       self.check_for_double(method)
+       self.check_for_double()
        self.show_calc_label.set(self.full_number)
        self.entry.delete(0,END)
     
@@ -184,9 +184,11 @@ class Layout:
         self.result_label.set("")
         self.entry.delete(0,END)
 
-    def check_for_double(self,method): #checks for double operators
-        if self.full_number[-2] == self.operator_pairs[method]:
+    def check_for_double(self): #checks for double operators
+        
+        if re.search(r"\D{2}",self.full_number) is not None:
            self.full_number = self.full_number[:-1]
+
         else:
            pass
         
