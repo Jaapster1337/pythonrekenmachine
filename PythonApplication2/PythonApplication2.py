@@ -16,7 +16,7 @@ class Layout:
         self.operator_pairs = {"add":"+", "subtract":"-", "multiply":"*", "divide":"/", "power":"^", "root":"**(1/2)", "dot":".", "m+":"m+","m-":"m-", "m":"m","me":"me", "solve":"=", "reset":"c"} #unfinished
         self.full_number = ""
        
-        self.result_label = IntVar()
+        self.result_label = DoubleVar()
         self.result_label.set(self.total)
         self.result = Label(master, textvariable=self.result_label)
         self.show_calc_label = StringVar()
@@ -35,7 +35,7 @@ class Layout:
         self.div_button = Button(master, text="/", command=lambda: self.update("divide"))
         self.power_button = Button(master, text="^", command=lambda: self.update("power"))
         self.root_button = Button(master, text=u"\u221A", command=lambda: self.update("root"))
-        #self.dot_button = Button(master, text=".", command=lambda: self.update("dot"))
+        self.dot_button = Button(master, text=".", command=lambda: self.update("dot"))
         self.m_add_button = Button(master, text="M+", command=lambda: self.update("m+"), state='disabled')
         self.m_sub_button = Button(master, text="M-", command=lambda: self.update("m-"), state='disabled')
         self.m_button = Button(master, text="M",command=lambda: self.update("m"))
@@ -80,7 +80,7 @@ class Layout:
         self.button_7.grid(row=7, column=0, sticky=W+E)
         self.button_8.grid(row=7, column=1, sticky=W+E)
         self.button_9.grid(row=7, column=2, sticky=W+E)
-        #self.dot_button.grid(row=10, column=2, sticky=W+E )
+        self.dot_button.grid(row=10, column=2, sticky=W+E )
         self.solve_button.grid(row=10, column=3, sticky=W+E)
         self.reset_button.grid(row=10, column=0, sticky=W+E)
         
@@ -116,7 +116,9 @@ class Layout:
             self.merge(method)
         
         elif method == "dot":
-            self.merge(method)
+             self.full_number +="."
+             self.show_calc_label.set(self.show_calc_label.get()+".")
+             self.entry.delete(0, END)
 
         elif method == "root":
             self.full_number +="**(1/2)"
@@ -124,14 +126,14 @@ class Layout:
 
         elif method == "m":
             print(self.result_label.get())
-            self.memory = (self.result_label.get())
-            print(float(self.memory))
+            self.memory = self.result_label.get()
+            print(self.memory)
             self.m_add_button.config(state='normal')
             self.m_sub_button.config(state='normal')
             self.m_erase_button.config(state='normal')
 
         elif method == "m+":
-                self.result_label.set(self.result_label.get() + (self.memory))
+                self.result_label.set(self.result_label.get() + self.memory)
                 print(self.memory)
         elif method == "m-":
                 self.result_label.set(self.result_label.get() - (self.memory))
@@ -143,7 +145,7 @@ class Layout:
             self.m_erase_button.config(state='disabled')
             self.memory = (0.0)
         
-        elif method in self.number_list: #number buttons
+        elif method in self.number_list: #number buttons input
                 self.full_number += method
                 self.show_calc_label.set(self.show_calc_label.get()+method)
                 self.entry.insert(str(len(self.entry.get())), method)
@@ -185,8 +187,6 @@ class Layout:
     def check_for_double(self,method): #checks for double operators
         if self.full_number[-2] == self.operator_pairs[method]:
            self.full_number = self.full_number[:-1]
-        elif self.full_number[-2] in self.operator_pairs[method] and self.full_number[-1] in self.operator_pairs[method]:
-            self.full_number = self.full_number[:-1]
         else:
            pass
         
