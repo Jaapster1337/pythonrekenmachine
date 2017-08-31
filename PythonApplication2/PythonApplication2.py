@@ -117,10 +117,11 @@ class Layout:
             self.merge(method)
         
         elif method == "dot":
-            self.full_number +="."
-            self.show_calc_label.set(self.show_calc_label.get()+".")
-            self.check_for_double()
-            self.entry.delete(0, END)
+            self.merge(method)
+            #self.full_number +="."
+            #self.show_calc_label.set(self.show_calc_label.get()+".")
+            #self.check_for_double()
+            #self.entry.delete(0, END)
 
         elif method == "root":
             self.full_number +="**(1/2)"
@@ -151,7 +152,7 @@ class Layout:
 
         elif method == "solve":
             self.full_number = self.full_number.replace("^", "**")
-           
+            self.full_number = self.full_number.replace(u"\u221A", "**(1/2)")
             if self.full_number != "":
                 try: 
                     eval(self.full_number)
@@ -167,6 +168,7 @@ class Layout:
                 
             else:
                 self.result_label.set("no entry")
+
                 
         else: # reset
             self.reset()
@@ -174,7 +176,7 @@ class Layout:
     def merge(self,method): 
        self.full_number += self.operator_pairs[method]
        self.check_for_double()
-       self.show_calc_label.set(self.full_number)
+       self.show_calc_label.set(self.show_calc_label.get()+self.operator_pairs[method])
        self.entry.delete(0,END)
     
     def reset(self):
@@ -186,10 +188,15 @@ class Layout:
 
     def check_for_double(self): #checks for double operators
         
-        if re.search(r"[\u221A|\D]{2}",self.full_number) is not None:
+       if re.search(r"[\u221A]{2}$",self.show_calc_label.get()) is not None:
+           print(self.full_number[:-7])
+           self.full_number = self.full_number[:-7]
+           print(self.full_number)
+           self.show_calc_label.set(self.show_calc_label.get()[:-1])
+       elif re.search(r"[\u221A|\D]{2}$",self.full_number) is not None:
            self.full_number = self.full_number[:-1]
-
-        else:
+           self.show_calc_label.set(self.show_calc_label.get()[:-1])
+       else:
            pass
         
 root = Tk()
