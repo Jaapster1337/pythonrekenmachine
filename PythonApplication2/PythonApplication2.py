@@ -118,10 +118,7 @@ class Layout:
         
         elif method == "dot":
             self.merge(method)
-            #self.full_number +="."
-            #self.show_calc_label.set(self.show_calc_label.get()+".")
-            #self.check_for_double()
-            #self.entry.delete(0, END)
+            self.check_for_double()
 
         elif method == "root":
             self.full_number +="**(1/2)"
@@ -146,9 +143,9 @@ class Layout:
             self.memory = (0.0)
         
         elif method in self.number_list: #number buttons input
-                self.full_number += method
-                self.show_calc_label.set(self.show_calc_label.get()+method)
-                self.entry.insert(str(len(self.entry.get())), method)
+            self.full_number += method
+            self.show_calc_label.set(self.show_calc_label.get()+method)
+            self.entry.insert(str(len(self.entry.get())), method)
 
         elif method == "solve":
             self.full_number = self.full_number.replace("^", "**")
@@ -189,8 +186,8 @@ class Layout:
     def check_for_double(self): #checks for double operators
         
        if re.search(r"[\u221A]{2}$",self.show_calc_label.get()) is not None:
-           print(self.full_number[:-7])
-           self.full_number = self.full_number[:-7]
+           #print(self.full_number[:-7])
+           self.full_number = self.full_number[-8]
            print(self.full_number)
            self.show_calc_label.set(self.show_calc_label.get()[:-1])
        elif re.search(r"[\u221A|\D]{2}$",self.full_number) is not None:
