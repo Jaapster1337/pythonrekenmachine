@@ -14,7 +14,7 @@ class Layout:
         self.number = []
         self.number_list = ["0","1","2","3","4","5","6","7","8","9"]
         self.method_list = ["add", "subtract", "multiply", "divide", "power", "root", "dot", "m+", "m-", "m", "me", "solve", "reset"]
-        self.operator_pairs = {"add":"+", "subtract":"-", "multiply":"*", "divide":"/", "power":"^", "root":"**(1/2)", "dot":".", "m+":"m+","m-":"m-", "m":"m","me":"me", "solve":"=", "reset":"c"} #unfinished
+        self.operator_pairs = {"add":"+", "subtract":"-", "multiply":"*", "divide":"/", "power":"^", "root":"**(1/2)", "dot":",", "m+":"m+","m-":"m-", "m":"m","me":"me", "solve":"=", "reset":"c"} #unfinished
         self.full_number = ""
        
         self.result_label = DoubleVar()
@@ -36,7 +36,7 @@ class Layout:
         self.div_button = Button(master, text="/", command=lambda: self.update("divide"))
         self.power_button = Button(master, text="^", command=lambda: self.update("power"))
         self.root_button = Button(master, text=u"\u221A", command=lambda: self.update("root"))
-        self.dot_button = Button(master, text=".", command=lambda: self.update("dot"))
+        self.dot_button = Button(master, text=",", command=lambda: self.update("dot"))
         self.m_add_button = Button(master, text="M+", command=lambda: self.update("m+"), state='disabled')
         self.m_sub_button = Button(master, text="M-", command=lambda: self.update("m-"), state='disabled')
         self.m_button = Button(master, text="M",command=lambda: self.update("m"))
@@ -155,9 +155,15 @@ class Layout:
                     eval(self.full_number)
                 except ZeroDivisionError:
                     self.result_label.set("you can't divide by zero")
+                    self.show_calc_label.set("")
+                    self.full_number = ("")
+                    self.entry.delete(0,END)
                     pass
                 except SyntaxError:
                     self.result_label.set("Syntax error")
+                    self.show_calc_label.set("")
+                    self.full_number = ("")
+                    self.entry.delete(0,END)
                     pass
                 result = eval(self.full_number)
                 self.result_label.set(round(result,10))
@@ -187,7 +193,7 @@ class Layout:
         
        if re.search(r"[\u221A]{2}$",self.show_calc_label.get()) is not None:
            #print(self.full_number[:-7])
-           self.full_number = self.full_number[-8]
+           self.full_number = self.full_number[:-7]
            print(self.full_number)
            self.show_calc_label.set(self.show_calc_label.get()[:-1])
        elif re.search(r"[\u221A|\D]{2}$",self.full_number) is not None:
